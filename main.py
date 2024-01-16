@@ -35,10 +35,19 @@ def recognize_faces(image_path):
 # Create a function to open an image and perform face recognition
 def open_image():
     file_path = filedialog.askopenfilename()
-    
+
     if file_path:
-        result = recognize_faces(file_path)
-        messagebox.showinfo("Face Recognition Result", result)
+        try:
+            image = cv2.imread(file_path)
+            if image is None:  # Check if image was successfully read
+                raise ValueError("Invalid image file")
+
+            result = recognize_faces(file_path)
+            messagebox.showinfo("Face Recognition Result", result)
+        except (FileNotFoundError, ValueError) as e:
+            messagebox.showerror("Error", f"Invalid file: {e}")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {e}")
 
 # Create the main GUI window
 root = tk.Tk()
