@@ -43,10 +43,31 @@ def open_image():
 # Create the main GUI window
 root = tk.Tk()
 root.title("Face Recognition")
+root.geometry("600x400")  # Set initial window size
+root.resizable(True, True)  # Allow resizing
+
+# Set a minimum size for the window
+root.minsize(300, 200)  # Prevent the window from being smaller than 300x200 pixels
 
 # Create an "Open Image" button
 open_button = tk.Button(root, text="Open Image", command=open_image)
-open_button.pack()
+
+def center_button(event = None):
+    """Centers the button within the window."""
+    button_width = open_button.winfo_width()
+    window_width = root.winfo_width()
+    padx = (window_width - button_width) // 2
+
+    button_height = open_button.winfo_height()
+    window_height = root.winfo_height()
+    pady = (window_height - button_height) // 2
+
+    open_button.grid(row=0, column=0, padx=(padx, padx), pady=(pady, pady), sticky="nsew")
+
+center_button()  # Center the button initially
+
+# Bind the center_button function to window resize events
+root.bind("<Configure>", center_button)
 
 # Start the GUI main loop
 root.mainloop()
